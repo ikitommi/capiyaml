@@ -1,6 +1,8 @@
 (ns fff.handler
   (:require [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
+            [muuntaja.core :as m]
+            [muuntaja.format.yaml :as yaml]
             [schema.core :as s]))
 
 (s/defschema Pizza
@@ -12,7 +14,8 @@
 
 (def app
   (api
-    {:swagger
+    {:formats (m/create (m/install m/default-options yaml/format))
+     :swagger
      {:ui "/"
       :spec "/swagger.json"
       :data {:info {:title "Fff"
